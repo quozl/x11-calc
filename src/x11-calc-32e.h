@@ -1,5 +1,5 @@
 /*
- * x11-calc-32.h - RPN (Reverse Polish) calculator simulator.
+ * x11-calc-32e.h - RPN (Reverse Polish) calculator simulator.
  *
  * Copyright(C) 2018   MT
  *
@@ -18,7 +18,7 @@
  * You  should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * 13 Jun 13   0.1   - Initial version - MT
+ * 13 Jun 13         - Initial version - MT
  * 30 Aug 20         - Moved functions to separate source file - MT
  * 12 Oct 21         - Removed Title and replaced with model number - MT
  *                   - Added macro definition for continuous memory - MT
@@ -37,13 +37,14 @@
  * 29 Jan 22         - Added an optional bezel to the display - MT
  * 12 Feb 22         - Updated layout and separated the initialisation code
  *                     for buttons and switches into two functions - MT
+ * 30 Mar 24         - Corrected number of switches - MT
  *
  */
 
 #define HEIGHT             385 * SCALE_HEIGHT
 #define WIDTH              200 * SCALE_WIDTH
 #define BUTTONS            30
-#define SWITCHES           2
+#define SWITCHES           1
 
 #define DIGITS             11
 

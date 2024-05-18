@@ -18,7 +18,7 @@
  * You  should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * 31 Aug 20   0.1   - Initial version - MT
+ * 31 Aug 20         - Initial version - MT
  * 31 Aug 20         - Resolved dependencies between header files by moving
  *                     common function definitions to a separate file - MT
  * 08 Aug 21         - Tidied up spelling errors in the comments - MT
@@ -55,17 +55,37 @@
  * 11 Dec 22         - Renamed models with continious memory and added HP25
  *                     HP33E, and HP38E - MT
  * 24 Dec 22         - Modified scale width for HP10 - MT
+ * 18 Feb 24         - Don't redefine COMMIT_ID if already defined - MT
+ * 04 Mar 24         - Check  that  all error codes are defined and  define
+ *                     any that are not - MT
+ * 14 Mar 24         - Allow SCALE_HEIGHT and SCALE_WIDTH to be passed from
+ *                     command line at compile time - MT
+ * 23 Apr 24         - Separated out prototypes for error handlers - MT
  *
  * TO DO :           -
  */
+#if !defined(COMMIT_ID)
 #define COMMIT_ID "[Commit ID: $Format:%h$]"
+#endif
 
 #if defined(HP35) || defined(HP80) || defined(HP45) || defined(HP70) || defined(HP55) || defined(HP10) || defined(HP67)
+
+#if !defined(SCALE_WIDTH)
 #define SCALE_WIDTH     1.15
+#endif
+#if !defined(SCALE_HEIGHT)
 #define SCALE_HEIGHT    1
+#endif
+
 #else
+
+#if !defined(SCALE_WIDTH)
 #define SCALE_WIDTH     1
+#endif
+#if !defined(SCALE_HEIGHT)
 #define SCALE_HEIGHT    1
+#endif
+
 #endif
 
 /** #define __TIME__     "00:00:00" /* Release only */
@@ -221,11 +241,3 @@
 #include "x11-calc-16c.h"
 
 #endif
-
-void v_version(); /* Display version information */
-
-void v_about(); /* Display help text */
-
-void v_error(const char *s_fmt, ...); /* Print formatted error message */
-
-void v_warning(const char *s_fmt, ...); /* Print formatted warning message */

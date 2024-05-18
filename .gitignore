@@ -1,5 +1,7 @@
 *
-!*.c
-!*.h
+!src/*.c
+!src/*.h
+!src/*.in
 !LICENSE
 !README.md
+!*.xml
