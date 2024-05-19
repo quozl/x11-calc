@@ -308,6 +308,7 @@
  * 03 May 24         - Sets the abort flag and interval counter immediately
  *                     before the main loop - MT
  * 04 May 24         - Do not define unused switches - MT
+ * 19 May 24         - Remove unnecessary call to set windows size - MT
  *
  * To Do             - Parse command line in a separate routine.
  *                   - Add verbose option.
@@ -319,8 +320,8 @@
 
 #define  NAME          "x11-calc"
 #define  VERSION       "0.14"
-#define  BUILD         "0154"
-#define  DATE          "04 May 24"
+#define  BUILD         "0155"
+#define  DATE          "19 May 24"
 #define  AUTHOR        "MT"
 
 #define  INTERVAL 25   /* Number of ticks to execute before updating the display */
@@ -330,8 +331,8 @@
 
 #include <stdarg.h>    /* vargs(), etc */
 #include <string.h>    /* strlen(), etc */
-#include <stdlib.h>    /* getenv(), etc */
 #include <stdio.h>     /* fprintf(), etc */
+#include <stdlib.h>    /* getenv(), etc */
 
 #include <ctype.h>     /* isprint(), etc */
 
@@ -694,16 +695,6 @@ int main(int argc, char *argv[])
       BlackPixel(x_display, i_screen), /* Preferred method */
       i_background_colour); /* Background colour */
 
-   h_size_hint = XAllocSizeHints(); /* Set application window size */
-   h_size_hint->flags = PMinSize | PMaxSize;
-   h_size_hint->height = o_window_position.height; /* Obsolete but used by some oli_window_leftder windows managers */
-   h_size_hint->width = o_window_position.width; /* Obsolete but used by some older windows managers */
-   h_size_hint->min_height = o_window_position.height;
-   h_size_hint->min_width = o_window_position.width;
-   h_size_hint->max_height = o_window_position.height;
-   h_size_hint->max_width = o_window_position.width;
-   XSetWMNormalHints(x_display, x_application_window, h_size_hint);
-
    XStoreName(x_display, x_application_window, s_title); /* Set the window title */
 
    if (XGetGeometry(x_display, x_application_window,    /* Get window geometry */
@@ -748,6 +739,8 @@ int main(int argc, char *argv[])
    o_window_position.width = o_window_geometry.width * f_scale;
    o_window_position.height = o_window_geometry.height * f_scale;
 
+   h_size_hint = XAllocSizeHints(); /* Set application window size */
+   h_size_hint->flags = PMinSize | PMaxSize;
    h_size_hint->height = o_window_position.height; /* Obsolete but used by some oli_window_leftder windows managers */
    h_size_hint->width = o_window_position.width; /* Obsolete but used by some older windows managers */
    h_size_hint->min_height = o_window_position.height;
@@ -755,7 +748,6 @@ int main(int argc, char *argv[])
    h_size_hint->max_height = o_window_position.height;
    h_size_hint->max_width = o_window_position.width;
    XSetWMNormalHints(x_display, x_application_window, h_size_hint);
-
 
    i_display_resize(h_display, f_scale); /* Resize display */
 
