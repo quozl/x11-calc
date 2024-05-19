@@ -24,6 +24,8 @@
 - [ ] Fix window resizing.
       Using window hints to resize the window when doesn't work every where environments
 
+  [https://tronche.com/gui/x/xlib/window/XMoveResizeWindow.html]::
+
 - [ ] Allow user to resize the window at runtime (scroll wheel?).
 
 - [ ] Finish debugging HP10 instruction set.
