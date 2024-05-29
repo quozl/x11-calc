@@ -28,11 +28,11 @@
 
 - [ ] Allow user to resize the window at runtime (scroll wheel?).
 
-- [ ] Finish debugging HP10 instruction set.
-
 - [ ] Add logic for a  separate 'PIK chip' and move printer code.
 
-- [ ] Add new button styles for HP67 and HP1x.
+- [ ] Finish debugging HP10 instruction set.
+
+- [ ] Add new button styles for HP67 and HP1xC.
 
 - [ ] Implement  different styles of digit (to allow for different  decimal
       point positions, and number of segments etc).
