@@ -1722,17 +1722,17 @@ void v_processor_tick(oprocessor *h_processor) /* Decode and execute a single in
                   break;
                case 01260: /* clear data registers */
                   {
-#if (defined(HP25) || defined(HP25c)) && defined(CONTINIOUS)
-                     /* Ignore the instruction */
-#else
-                     int i_count;
                      if (h_processor->trace) fprintf(stdout, "clear data registers");
+#if (defined(HP25) || defined(HP25c)) && defined(CONTINIOUS)
+                      /* For an HP25C with continuous memory this instruction should be ignored!! */
+#else
 #if (defined(HP67)) && defined(CONTINIOUS)
                      if (h_processor->crc[READY])
                         h_processor->crc[READY]++;
                      else
 #endif
                      {
+                        int i_count;
                         h_processor->first = 0; h_processor->last = REG_SIZE - 1;
                         for (i_count = h_processor->addr & ~0x0f; i_count < (h_processor->addr & ~0x0f) + 16; i_count++)
                         {
