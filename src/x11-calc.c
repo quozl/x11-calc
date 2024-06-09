@@ -324,6 +324,8 @@
 #define  DATE          "19 May 24"
 #define  AUTHOR        "MT"
 
+#define  DEBUG
+
 #define  INTERVAL 25   /* Number of ticks to execute before updating the display */
 #define  DELAY 50      /* Number of intervals to wait before exiting */
 
@@ -895,7 +897,7 @@ int main(int argc, char *argv[])
             break;
 #endif
          case ButtonPress :
-            debug(printf("Mouse button [%d] pressed.\n", x_event.xbutton.button));
+            /** debug(printf("Mouse button [%d] pressed.\n", x_event.xbutton.button)); */
             if (x_event.xbutton.button == 1)
             {
                int i_count;
@@ -920,7 +922,7 @@ int main(int argc, char *argv[])
                   if (!(h_switch_pressed(h_switch[0], x_event.xbutton.x, x_event.xbutton.y) == NULL))
                   {
                      h_switch[0]->state = !(h_switch[0]->state); /* Toggle switch */
-                     printf("*** switch.state[0] = %d\n",h_switch[0]->state);
+                     debug(printf("switch.state[0] = %d\n",h_switch[0]->state));
                      i_switch_draw(x_display, x_application_window, i_screen, h_switch[0]);
                      if (h_switch[0]->state)
                      {
@@ -946,7 +948,7 @@ int main(int argc, char *argv[])
                      if (h_switch_pressed(h_switch[1], x_event.xbutton.x, x_event.xbutton.y) != NULL)
                      {
                         h_processor->mode = i_switch_click(h_switch[1]); /* Update prgm/run switch */
-                        printf("*** switch.state[1] = %d\n",h_switch[1]->state);
+                        debug(printf("switch.state[1] = %d\n",h_switch[1]->state));
                         i_switch_draw(x_display, x_application_window, i_screen, h_switch[1]);
                      }
                }
