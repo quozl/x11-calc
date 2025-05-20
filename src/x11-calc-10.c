@@ -51,7 +51,7 @@
  * 21 Apr 25         - Fixed up target addresses that were changed when the
  *                     extra instruction was inserted at 0-2502 - MT
  *
- * To Do             - 
+ * To Do             -
  */
 
 #define VERSION        "0.1"
@@ -80,13 +80,13 @@
 
 oregister o_mem[MEMORY_SIZE];
 
-void v_init_switches(oswitch *h_switch[]) /* Define the switches. */
+void v_init_switches(struct oswitch *h_switch[]) /* Define the switches. */
 {
    h_switch[0] = h_switch_create(00000, "OFF", "", "ON ", h_alternate_font, KBD_LEFT, KBD_TOP, 2 * KEY_WIDTH + KEY_GAP, SWITCH_HEIGHT, True, MID_GREY, DARK_GREY);
    h_switch[1] = h_switch_create(00000, "DSP", "ALL", "PRT", h_alternate_font, KBD_LEFT + 3 * KEY_WIDTH + 2 * KEY_GAP, KBD_TOP, 2 * KEY_WIDTH + KEY_GAP, SWITCH_HEIGHT * 2, False, MID_GREY, DARK_GREY); /** No option for PRINT only **/
 }
 
-void v_init_buttons(obutton *h_button[]) {
+void v_init_buttons(struct obutton *h_button[]) {
    int i_left, i_top, i_count = 0;
 
    /* Define top row of keys. */

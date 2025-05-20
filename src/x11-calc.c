@@ -311,6 +311,7 @@
  * 19 May 24         - Remove unnecessary call to set windows size - MT
  * 15 Jun 24         - Sets the application icon to the X windows logo - MT
  * 24 Jul 24         - Updated release meta data - MT
+ * 20 May 25         - Tidied up data structure definitions - MT
  *
  * To Do             - Parse command line in a separate routine.
  *                   - Add verbose option.
@@ -322,11 +323,9 @@
 
 #define  NAME          "x11-calc"
 #define  VERSION       "0.14"
-#define  BUILD         "0157"
-#define  DATE          "24 Jul 24"
+#define  BUILD         "0154"
+#define  DATE          "04 May 24"
 #define  AUTHOR        "MT"
-
-#define  DEBUG
 
 #define  INTERVAL 25   /* Number of ticks to execute before updating the display */
 #define  DELAY 50      /* Number of intervals to wait before exiting */
@@ -366,7 +365,7 @@
 #include "gcc-debug.h" /* debug() */
 #include "gcc-wait.h"  /* i_wait() */
 
-void v_version()  /* Display version information */
+void v_version() /* Display version information */
 {
    fprintf(stdout, "%s: Version %s.%s %s", FILENAME, VERSION, BUILD, COMMIT_ID);
    if (__DATE__[4] == ' ') fprintf(stdout, " 0"); else fprintf(stdout, " %c", __DATE__[4]);
@@ -374,7 +373,7 @@ void v_version()  /* Display version information */
       __DATE__[0], __DATE__[1], __DATE__[2], &__DATE__[9], __TIME__ );
 }
 
-void v_warning(const char *s_format, ...)  /* Print formatted warning message and exit */
+void v_warning(const char *s_format, ...) /* Print formatted warning message and exit */
 {
    va_list t_args;
    va_start(t_args, s_format);
@@ -383,10 +382,10 @@ void v_warning(const char *s_format, ...)  /* Print formatted warning message an
    va_end(t_args);
 }
 
-void v_error(int i_errno, const char *s_format, ...)  /* Print formatted error message and exit returning errno */
+void v_error(int i_errno, const char *s_format, ...) /* Print formatted error message and exit returning errno */
 {
    va_list t_args;
-   if (!(i_errno)) i_errno = -1;  /* If errno not set return -1 */
+   if (!(i_errno)) i_errno = -1; /* If errno not set return -1 */
    va_start(t_args, s_format);
    fprintf(stderr, "%s: ", FILENAME);
    vfprintf(stderr, s_format, t_args);
@@ -415,9 +414,9 @@ int main(int argc, char *argv[])
    Atom wm_delete;
    XRectangle o_window_position;
    XRectangle o_window_geometry;
-   obutton *h_button[BUTTONS];   /* Array to hold pointers to buttons */
-   obutton *h_pressed = NULL;
-   odisplay *h_display;          /* Pointer to display structure */
+   struct obutton *h_button[BUTTONS];   /* Array to hold pointers to buttons */
+   struct obutton *h_pressed = NULL;
+   struct odisplay *h_display;          /* Pointer to display structure */
    oprocessor *h_processor;
 
    char *s_display_name = "";    /* Just use the default display */
@@ -452,11 +451,11 @@ int main(int argc, char *argv[])
    int i_ticks = -1;
 
 #if defined(SWITCHES)
-   oswitch *h_switch[SWITCHES];
+   struct oswitch *h_switch[SWITCHES];
 #endif
 
 #if defined(LABELS)
-   olabel *h_label[LABELS];
+   struct olabel *h_label[LABELS];
 #endif
 
 #if defined(__linux__) || defined(__NetBSD__) || defined(__FreeBSD__)
