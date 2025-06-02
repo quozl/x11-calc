@@ -130,23 +130,31 @@ Subroutine and long conditional jumps use two word opcodes.
     +---+---+---+---+---+---+---+---+---+---+   +---+---+---+---+---+---+---+---+---+---+
 
     Octal   Binary            Binary            Mnemonic
-            x xxx xx xx 01    x xxx xx xx nn    ? nc gsb                    (subroutine call if carry clear)
-            x xxx xx xx 01    x xxx xx xx nn    ? c gsb                     (subroutine call if carry set)
-            x xxx xx xx 01    x xxx xx xx nn    ? nc goto                   (long jump if carry clear)
-            x xxx xx xx 01    x xxx xx xx nn    ? c goto                    (long jump call if carry set)
+            x xxx xx xx 01    x xxx xx xx nn    ? no carry gsb              (subroutine call if carry clear)
+            x xxx xx xx 01    x xxx xx xx nn    ? carry gsb                 (subroutine call if carry set)
+            x xxx xx xx 01    x xxx xx xx nn    ? no carry go to            (long jump if carry clear)
+            x xxx xx xx 01    x xxx xx xx nn    ? carry go to               (long jump call if carry set)
 
 
 ## Type 3 - Conditional branch (n nnn nnn n11)
 
-Short jumps
+Relative (short) jumps
 
       9   8   7   6   5   4   3   2   1   0
     +---+---+---+---+---+---+---+---+---+---+
     | n | n | n | n | n | n | n | n | 1 | 1 |
     +---+---+---+---+---+---+---+---+---+---+
 
+### Classic and Woodstock/Spice series
+
     Octal   Binary            Mnemonic
-            n nnn nn nn 11    if n/c goto nnnnnnnn
+            n nnn nn nn 11    if nc goto nnnnnnnn
+
+### Voyager/Coconut series (NUT processor)
+
+    Octal   Binary            Mnemonic              Mnemonic (classic)
+            n nnn nn n0 11    gonc                  if nc goto nnnnnnn
+            n nnn nn n1 11    goc                   if c goto nnnnnnn
 
 
 ## Type 0 - Special operations (n nnn nnn n00)
@@ -996,262 +1004,262 @@ enscwp                   1434      N/A       N/A
 f -> a                   N/A       N/A       1610
 f -> a[p]                1234      N/A       N/A
 f exch a                 N/A       N/A       1710
-go to $00                0003      0003      0003
-go to $01                0007      0007      0007
-go to $02                0013      0013      0013
-go to $03                0017      0017      0017
-go to $04                0023      0023      0023
-go to $05                0027      0027      0027
-go to $06                0033      0033      0033
-go to $07                0037      0037      0037
-go to $08                0043      0043      0043
-go to $09                0047      0047      0047
-go to $0A                0053      0053      0053
-go to $0B                0057      0057      0057
-go to $0C                0063      0063      0063
-go to $0D                0067      0067      0067
-go to $0E                0073      0073      0073
-go to $0F                0077      0077      0077
-go to $10                0103      0103      0103
-go to $11                0107      0107      0107
-go to $12                0113      0113      0113
-go to $13                0117      0117      0117
-go to $14                0123      0123      0123
-go to $15                0127      0127      0127
-go to $16                0133      0133      0133
-go to $17                0137      0137      0137
-go to $18                0143      0143      0143
-go to $19                0147      0147      0147
-go to $1A                0153      0153      0153
-go to $1B                0157      0157      0157
-go to $1C                0163      0163      0163
-go to $1D                0167      0167      0167
-go to $1E                0173      0173      0173
-go to $1F                0177      0177      0177
-go to $20                0203      0203      0203
-go to $21                0207      0207      0207
-go to $22                0213      0213      0213
-go to $23                0217      0217      0217
-go to $24                0223      0223      0223
-go to $25                0227      0227      0227
-go to $26                0233      0233      0233
-go to $27                0237      0237      0237
-go to $28                0243      0243      0243
-go to $29                0247      0247      0247
-go to $2A                0253      0253      0253
-go to $2B                0257      0257      0257
-go to $2C                0263      0263      0263
-go to $2D                0267      0267      0267
-go to $2E                0273      0273      0273
-go to $2F                0277      0277      0277
-go to $30                0303      0303      0303
-go to $31                0307      0307      0307
-go to $32                0313      0313      0313
-go to $33                0317      0317      0317
-go to $34                0323      0323      0323
-go to $35                0327      0327      0327
-go to $36                0333      0333      0333
-go to $37                0337      0337      0337
-go to $38                0343      0343      0343
-go to $39                0347      0347      0347
-go to $3A                0353      0353      0353
-go to $3B                0357      0357      0357
-go to $3C                0363      0363      0363
-go to $3D                0367      0367      0367
-go to $3E                0373      0373      0373
-go to $3F                0377      0377      0377
-go to $40                0403      0403      0403
-go to $41                0407      0407      0407
-go to $42                0413      0413      0413
-go to $43                0417      0417      0417
-go to $44                0423      0423      0423
-go to $45                0427      0427      0427
-go to $46                0433      0433      0433
-go to $47                0437      0437      0437
-go to $48                0443      0443      0443
-go to $49                0447      0447      0447
-go to $4A                0453      0453      0453
-go to $4B                0457      0457      0457
-go to $4C                0463      0463      0463
-go to $4D                0467      0467      0467
-go to $4E                0473      0473      0473
-go to $4F                0477      0477      0477
-go to $50                0503      0503      0503
-go to $51                0507      0507      0507
-go to $52                0513      0513      0513
-go to $53                0517      0517      0517
-go to $54                0523      0523      0523
-go to $55                0527      0527      0527
-go to $56                0533      0533      0533
-go to $57                0537      0537      0537
-go to $58                0543      0543      0543
-go to $59                0547      0547      0547
-go to $5A                0553      0553      0553
-go to $5B                0557      0557      0557
-go to $5C                0563      0563      0563
-go to $5D                0567      0567      0567
-go to $5E                0573      0573      0573
-go to $5F                0577      0577      0577
-go to $60                0603      0603      0603
-go to $61                0607      0607      0607
-go to $62                0613      0613      0613
-go to $63                0617      0617      0617
-go to $64                0623      0623      0623
-go to $65                0627      0627      0627
-go to $66                0633      0633      0633
-go to $67                0637      0637      0637
-go to $68                0643      0643      0643
-go to $69                0647      0647      0647
-go to $6A                0653      0653      0653
-go to $6B                0657      0657      0657
-go to $6C                0663      0663      0663
-go to $6D                0667      0667      0667
-go to $6E                0673      0673      0673
-go to $6F                0677      0677      0677
-go to $70                0703      0703      0703
-go to $71                0707      0707      0707
-go to $72                0713      0713      0713
-go to $73                0717      0717      0717
-go to $74                0723      0723      0723
-go to $75                0727      0727      0727
-go to $76                0733      0733      0733
-go to $77                0737      0737      0737
-go to $78                0743      0743      0743
-go to $79                0747      0747      0747
-go to $7A                0753      0753      0753
-go to $7B                0757      0757      0757
-go to $7C                0763      0763      0763
-go to $7D                0767      0767      0767
-go to $7E                0773      0773      0773
-go to $7F                0777      0777      0777
-go to $80                1003      1003      1003
-go to $81                1007      1007      1007
-go to $82                1013      1013      1013
-go to $83                1017      1017      1017
-go to $84                1023      1023      1023
-go to $85                1027      1027      1027
-go to $86                1033      1033      1033
-go to $87                1037      1037      1037
-go to $88                1043      1043      1043
-go to $89                1047      1047      1047
-go to $8A                1053      1053      1053
-go to $8B                1057      1057      1057
-go to $8C                1063      1063      1063
-go to $8D                1067      1067      1067
-go to $8E                1073      1073      1073
-go to $8F                1077      1077      1077
-go to $90                1103      1103      1103
-go to $91                1107      1107      1107
-go to $92                1113      1113      1113
-go to $93                1117      1117      1117
-go to $94                1123      1123      1123
-go to $95                1127      1127      1127
-go to $96                1133      1133      1133
-go to $97                1137      1137      1137
-go to $98                1143      1143      1143
-go to $99                1147      1147      1147
-go to $9A                1153      1153      1153
-go to $9B                1157      1157      1157
-go to $9C                1163      1163      1163
-go to $9D                1167      1167      1167
-go to $9E                1173      1173      1173
-go to $9F                1177      1177      1177
-go to $A0                1203      1203      1203
-go to $A1                1207      1207      1207
-go to $A2                1213      1213      1213
-go to $A3                1217      1217      1217
-go to $A4                1223      1223      1223
-go to $A5                1227      1227      1227
-go to $A6                1233      1233      1233
-go to $A7                1237      1237      1237
-go to $A8                1243      1243      1243
-go to $A9                1247      1247      1247
-go to $AA                1253      1253      1253
-go to $AB                1257      1257      1257
-go to $AC                1263      1263      1263
-go to $AD                1267      1267      1267
-go to $AE                1273      1273      1273
-go to $AF                1277      1277      1277
-go to $B0                1303      1303      1303
-go to $B1                1307      1307      1307
-go to $B2                1313      1313      1313
-go to $B3                1317      1317      1317
-go to $B4                1323      1323      1323
-go to $B5                1327      1327      1327
-go to $B6                1333      1333      1333
-go to $B7                1337      1337      1337
-go to $B8                1343      1343      1343
-go to $B9                1347      1347      1347
-go to $BA                1353      1353      1353
-go to $BB                1357      1357      1357
-go to $BC                1363      1363      1363
-go to $BD                1367      1367      1367
-go to $BE                1373      1373      1373
-go to $BF                1377      1377      1377
-go to $C0                1403      1403      1403
-go to $C1                1407      1407      1407
-go to $C2                1413      1413      1413
-go to $C3                1417      1417      1417
-go to $C4                1423      1423      1423
-go to $C5                1427      1427      1427
-go to $C6                1433      1433      1433
-go to $C7                1437      1437      1437
-go to $C8                1443      1443      1443
-go to $C9                1447      1447      1447
-go to $CA                1453      1453      1453
-go to $CB                1457      1457      1457
-go to $CC                1463      1463      1463
-go to $CD                1467      1467      1467
-go to $CE                1473      1473      1473
-go to $CF                1477      1477      1477
-go to $D0                1503      1503      1503
-go to $D1                1507      1507      1507
-go to $D2                1513      1513      1513
-go to $D3                1517      1517      1517
-go to $D4                1523      1523      1523
-go to $D5                1527      1527      1527
-go to $D6                1533      1533      1533
-go to $D7                1537      1537      1537
-go to $D8                1543      1543      1543
-go to $D9                1547      1547      1547
-go to $DA                1553      1553      1553
-go to $DB                1557      1557      1557
-go to $DC                1563      1563      1563
-go to $DD                1567      1567      1567
-go to $DE                1573      1573      1573
-go to $DF                1577      1577      1577
-go to $E0                1603      1603      1603
-go to $E1                1607      1607      1607
-go to $E2                1613      1613      1613
-go to $E3                1617      1617      1617
-go to $E4                1623      1623      1623
-go to $E5                1627      1627      1627
-go to $E6                1633      1633      1633
-go to $E7                1637      1637      1637
-go to $E8                1643      1643      1643
-go to $E9                1647      1647      1647
-go to $EA                1653      1653      1653
-go to $EB                1657      1657      1657
-go to $EC                1663      1663      1663
-go to $ED                1667      1667      1667
-go to $EE                1673      1673      1673
-go to $EF                1677      1677      1677
-go to $F0                1703      1703      1703
-go to $F1                1707      1707      1707
-go to $F2                1713      1713      1713
-go to $F3                1717      1717      1717
-go to $F4                1723      1723      1723
-go to $F5                1727      1727      1727
-go to $F6                1733      1733      1733
-go to $F7                1737      1737      1737
-go to $F8                1743      1743      1743
-go to $F9                1747      1747      1747
-go to $FA                1753      1753      1753
-go to $FB                1757      1757      1757
-go to $FC                1763      1763      1763
-go to $FD                1767      1767      1767
-go to $FE                1773      1773      1773
-go to $FF                1777      1777      1777
+if no carry go to $00    0003      0003      0003
+if no carry go to $01    0007      0007      0007
+if no carry go to $02    0013      0013      0013
+if no carry go to $03    0017      0017      0017
+if no carry go to $04    0023      0023      0023
+if no carry go to $05    0027      0027      0027
+if no carry go to $06    0033      0033      0033
+if no carry go to $07    0037      0037      0037
+if no carry go to $08    0043      0043      0043
+if no carry go to $09    0047      0047      0047
+if no carry go to $0A    0053      0053      0053
+if no carry go to $0B    0057      0057      0057
+if no carry go to $0C    0063      0063      0063
+if no carry go to $0D    0067      0067      0067
+if no carry go to $0E    0073      0073      0073
+if no carry go to $0F    0077      0077      0077
+if no carry go to $10    0103      0103      0103
+if no carry go to $11    0107      0107      0107
+if no carry go to $12    0113      0113      0113
+if no carry go to $13    0117      0117      0117
+if no carry go to $14    0123      0123      0123
+if no carry go to $15    0127      0127      0127
+if no carry go to $16    0133      0133      0133
+if no carry go to $17    0137      0137      0137
+if no carry go to $18    0143      0143      0143
+if no carry go to $19    0147      0147      0147
+if no carry go to $1A    0153      0153      0153
+if no carry go to $1B    0157      0157      0157
+if no carry go to $1C    0163      0163      0163
+if no carry go to $1D    0167      0167      0167
+if no carry go to $1E    0173      0173      0173
+if no carry go to $1F    0177      0177      0177
+if no carry go to $20    0203      0203      0203
+if no carry go to $21    0207      0207      0207
+if no carry go to $22    0213      0213      0213
+if no carry go to $23    0217      0217      0217
+if no carry go to $24    0223      0223      0223
+if no carry go to $25    0227      0227      0227
+if no carry go to $26    0233      0233      0233
+if no carry go to $27    0237      0237      0237
+if no carry go to $28    0243      0243      0243
+if no carry go to $29    0247      0247      0247
+if no carry go to $2A    0253      0253      0253
+if no carry go to $2B    0257      0257      0257
+if no carry go to $2C    0263      0263      0263
+if no carry go to $2D    0267      0267      0267
+if no carry go to $2E    0273      0273      0273
+if no carry go to $2F    0277      0277      0277
+if no carry go to $30    0303      0303      0303
+if no carry go to $31    0307      0307      0307
+if no carry go to $32    0313      0313      0313
+if no carry go to $33    0317      0317      0317
+if no carry go to $34    0323      0323      0323
+if no carry go to $35    0327      0327      0327
+if no carry go to $36    0333      0333      0333
+if no carry go to $37    0337      0337      0337
+if no carry go to $38    0343      0343      0343
+if no carry go to $39    0347      0347      0347
+if no carry go to $3A    0353      0353      0353
+if no carry go to $3B    0357      0357      0357
+if no carry go to $3C    0363      0363      0363
+if no carry go to $3D    0367      0367      0367
+if no carry go to $3E    0373      0373      0373
+if no carry go to $3F    0377      0377      0377
+if no carry go to $40    0403      0403      0403
+if no carry go to $41    0407      0407      0407
+if no carry go to $42    0413      0413      0413
+if no carry go to $43    0417      0417      0417
+if no carry go to $44    0423      0423      0423
+if no carry go to $45    0427      0427      0427
+if no carry go to $46    0433      0433      0433
+if no carry go to $47    0437      0437      0437
+if no carry go to $48    0443      0443      0443
+if no carry go to $49    0447      0447      0447
+if no carry go to $4A    0453      0453      0453
+if no carry go to $4B    0457      0457      0457
+if no carry go to $4C    0463      0463      0463
+if no carry go to $4D    0467      0467      0467
+if no carry go to $4E    0473      0473      0473
+if no carry go to $4F    0477      0477      0477
+if no carry go to $50    0503      0503      0503
+if no carry go to $51    0507      0507      0507
+if no carry go to $52    0513      0513      0513
+if no carry go to $53    0517      0517      0517
+if no carry go to $54    0523      0523      0523
+if no carry go to $55    0527      0527      0527
+if no carry go to $56    0533      0533      0533
+if no carry go to $57    0537      0537      0537
+if no carry go to $58    0543      0543      0543
+if no carry go to $59    0547      0547      0547
+if no carry go to $5A    0553      0553      0553
+if no carry go to $5B    0557      0557      0557
+if no carry go to $5C    0563      0563      0563
+if no carry go to $5D    0567      0567      0567
+if no carry go to $5E    0573      0573      0573
+if no carry go to $5F    0577      0577      0577
+if no carry go to $60    0603      0603      0603
+if no carry go to $61    0607      0607      0607
+if no carry go to $62    0613      0613      0613
+if no carry go to $63    0617      0617      0617
+if no carry go to $64    0623      0623      0623
+if no carry go to $65    0627      0627      0627
+if no carry go to $66    0633      0633      0633
+if no carry go to $67    0637      0637      0637
+if no carry go to $68    0643      0643      0643
+if no carry go to $69    0647      0647      0647
+if no carry go to $6A    0653      0653      0653
+if no carry go to $6B    0657      0657      0657
+if no carry go to $6C    0663      0663      0663
+if no carry go to $6D    0667      0667      0667
+if no carry go to $6E    0673      0673      0673
+if no carry go to $6F    0677      0677      0677
+if no carry go to $70    0703      0703      0703
+if no carry go to $71    0707      0707      0707
+if no carry go to $72    0713      0713      0713
+if no carry go to $73    0717      0717      0717
+if no carry go to $74    0723      0723      0723
+if no carry go to $75    0727      0727      0727
+if no carry go to $76    0733      0733      0733
+if no carry go to $77    0737      0737      0737
+if no carry go to $78    0743      0743      0743
+if no carry go to $79    0747      0747      0747
+if no carry go to $7A    0753      0753      0753
+if no carry go to $7B    0757      0757      0757
+if no carry go to $7C    0763      0763      0763
+if no carry go to $7D    0767      0767      0767
+if no carry go to $7E    0773      0773      0773
+if no carry go to $7F    0777      0777      0777
+if no carry go to $80    1003      1003      1003
+if no carry go to $81    1007      1007      1007
+if no carry go to $82    1013      1013      1013
+if no carry go to $83    1017      1017      1017
+if no carry go to $84    1023      1023      1023
+if no carry go to $85    1027      1027      1027
+if no carry go to $86    1033      1033      1033
+if no carry go to $87    1037      1037      1037
+if no carry go to $88    1043      1043      1043
+if no carry go to $89    1047      1047      1047
+if no carry go to $8A    1053      1053      1053
+if no carry go to $8B    1057      1057      1057
+if no carry go to $8C    1063      1063      1063
+if no carry go to $8D    1067      1067      1067
+if no carry go to $8E    1073      1073      1073
+if no carry go to $8F    1077      1077      1077
+if no carry go to $90    1103      1103      1103
+if no carry go to $91    1107      1107      1107
+if no carry go to $92    1113      1113      1113
+if no carry go to $93    1117      1117      1117
+if no carry go to $94    1123      1123      1123
+if no carry go to $95    1127      1127      1127
+if no carry go to $96    1133      1133      1133
+if no carry go to $97    1137      1137      1137
+if no carry go to $98    1143      1143      1143
+if no carry go to $99    1147      1147      1147
+if no carry go to $9A    1153      1153      1153
+if no carry go to $9B    1157      1157      1157
+if no carry go to $9C    1163      1163      1163
+if no carry go to $9D    1167      1167      1167
+if no carry go to $9E    1173      1173      1173
+if no carry go to $9F    1177      1177      1177
+if no carry go to $A0    1203      1203      1203
+if no carry go to $A1    1207      1207      1207
+if no carry go to $A2    1213      1213      1213
+if no carry go to $A3    1217      1217      1217
+if no carry go to $A4    1223      1223      1223
+if no carry go to $A5    1227      1227      1227
+if no carry go to $A6    1233      1233      1233
+if no carry go to $A7    1237      1237      1237
+if no carry go to $A8    1243      1243      1243
+if no carry go to $A9    1247      1247      1247
+if no carry go to $AA    1253      1253      1253
+if no carry go to $AB    1257      1257      1257
+if no carry go to $AC    1263      1263      1263
+if no carry go to $AD    1267      1267      1267
+if no carry go to $AE    1273      1273      1273
+if no carry go to $AF    1277      1277      1277
+if no carry go to $B0    1303      1303      1303
+if no carry go to $B1    1307      1307      1307
+if no carry go to $B2    1313      1313      1313
+if no carry go to $B3    1317      1317      1317
+if no carry go to $B4    1323      1323      1323
+if no carry go to $B5    1327      1327      1327
+if no carry go to $B6    1333      1333      1333
+if no carry go to $B7    1337      1337      1337
+if no carry go to $B8    1343      1343      1343
+if no carry go to $B9    1347      1347      1347
+if no carry go to $BA    1353      1353      1353
+if no carry go to $BB    1357      1357      1357
+if no carry go to $BC    1363      1363      1363
+if no carry go to $BD    1367      1367      1367
+if no carry go to $BE    1373      1373      1373
+if no carry go to $BF    1377      1377      1377
+if no carry go to $C0    1403      1403      1403
+if no carry go to $C1    1407      1407      1407
+if no carry go to $C2    1413      1413      1413
+if no carry go to $C3    1417      1417      1417
+if no carry go to $C4    1423      1423      1423
+if no carry go to $C5    1427      1427      1427
+if no carry go to $C6    1433      1433      1433
+if no carry go to $C7    1437      1437      1437
+if no carry go to $C8    1443      1443      1443
+if no carry go to $C9    1447      1447      1447
+if no carry go to $CA    1453      1453      1453
+if no carry go to $CB    1457      1457      1457
+if no carry go to $CC    1463      1463      1463
+if no carry go to $CD    1467      1467      1467
+if no carry go to $CE    1473      1473      1473
+if no carry go to $CF    1477      1477      1477
+if no carry go to $D0    1503      1503      1503
+if no carry go to $D1    1507      1507      1507
+if no carry go to $D2    1513      1513      1513
+if no carry go to $D3    1517      1517      1517
+if no carry go to $D4    1523      1523      1523
+if no carry go to $D5    1527      1527      1527
+if no carry go to $D6    1533      1533      1533
+if no carry go to $D7    1537      1537      1537
+if no carry go to $D8    1543      1543      1543
+if no carry go to $D9    1547      1547      1547
+if no carry go to $DA    1553      1553      1553
+if no carry go to $DB    1557      1557      1557
+if no carry go to $DC    1563      1563      1563
+if no carry go to $DD    1567      1567      1567
+if no carry go to $DE    1573      1573      1573
+if no carry go to $DF    1577      1577      1577
+if no carry go to $E0    1603      1603      1603
+if no carry go to $E1    1607      1607      1607
+if no carry go to $E2    1613      1613      1613
+if no carry go to $E3    1617      1617      1617
+if no carry go to $E4    1623      1623      1623
+if no carry go to $E5    1627      1627      1627
+if no carry go to $E6    1633      1633      1633
+if no carry go to $E7    1637      1637      1637
+if no carry go to $E8    1643      1643      1643
+if no carry go to $E9    1647      1647      1647
+if no carry go to $EA    1653      1653      1653
+if no carry go to $EB    1657      1657      1657
+if no carry go to $EC    1663      1663      1663
+if no carry go to $ED    1667      1667      1667
+if no carry go to $EE    1673      1673      1673
+if no carry go to $EF    1677      1677      1677
+if no carry go to $F0    1703      1703      1703
+if no carry go to $F1    1707      1707      1707
+if no carry go to $F2    1713      1713      1713
+if no carry go to $F3    1717      1717      1717
+if no carry go to $F4    1723      1723      1723
+if no carry go to $F5    1727      1727      1727
+if no carry go to $F6    1733      1733      1733
+if no carry go to $F7    1737      1737      1737
+if no carry go to $F8    1743      1743      1743
+if no carry go to $F9    1747      1747      1747
+if no carry go to $FA    1753      1753      1753
+if no carry go to $FB    1757      1757      1757
+if no carry go to $FC    1763      1763      1763
+if no carry go to $FD    1767      1767      1767
+if no carry go to $FE    1773      1773      1773
+if no carry go to $FF    1777      1777      1777
 gokeys                   0220      N/A       N/A
 hi i'm woodstock         N/A       N/A       1760
 i8 -> a                  N/A       0350      N/A
