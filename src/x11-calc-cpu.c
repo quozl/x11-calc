@@ -393,6 +393,10 @@
  * 19 Apr 25         - Modified the mnemonics for some if statements to put
  *                     the operands first - MT
  * 20 May 25         - Tidied up data structure definitions - MT
+ * 19 Apr 25         - Updated the mnemonics for some conditional and  jump
+ *                     statements - MT
+ * 09 Jun 25         - Trace output includes the status word for if testing
+ *                     a status bit - MT
  *
  * To Do             - Finish adding code to display any modified registers
  *                     to every instruction.
@@ -405,6 +409,8 @@
 #define BUILD          "0171"
 #define DATE           "29 Mar 24"
 #define AUTHOR         "MT"
+
+#define DEBUG
 
 #include <errno.h>     /* errno */
 
@@ -425,7 +431,7 @@
 
 #include "x11-calc-cpu.h"
 
-#include "gcc-debug.h"  /* print() */
+#include "gcc-debug.h"  /* debug() */
 #include "gcc-exists.h" /* i_isfile(), i_isdir(), i_exists() */
 
 #if defined(unix) || defined(__unix__) || defined(__APPLE__)
@@ -1269,8 +1275,9 @@ void v_processor_tick(oprocessor *h_processor) /* Decode and execute a single in
                if (h_processor->trace) v_fprint_status(stdout, h_processor);
                break;
             case 01: /* if 0 = s(n) */
-               if (h_processor->trace) fprintf(stdout, "if 0 = s(%d) ", i_opcode >> 6);
+               if (h_processor->trace) fprintf(stdout, "if s(%d) = 0\t", i_opcode >> 6);
                h_processor->flags[CARRY] = !h_processor->status[i_opcode >> 6];
+               if (h_processor->trace) v_fprint_status(stdout, h_processor);
                v_op_goto(h_processor);
                break;
             case 02: /* 0 -> s(n) */
@@ -1801,8 +1808,9 @@ void v_processor_tick(oprocessor *h_processor) /* Decode and execute a single in
                if (h_processor->trace) v_fprint_status(stdout, h_processor);
                break;
             case 01: /* if 1 = s(n) */
-               if (h_processor->trace) fprintf(stdout, "if 1 = s(%d)", i_opcode >> 6);
+               if (h_processor->trace) fprintf(stdout, "if s(%d) = 1\t", i_opcode >> 6);
                h_processor->flags[CARRY] = h_processor->status[i_opcode >> 6];
+               if (h_processor->trace) v_fprint_status(stdout, h_processor);
                v_op_goto(h_processor);
                break;
             case 02: /* if p = n */
@@ -2041,9 +2049,14 @@ void v_processor_tick(oprocessor *h_processor) /* Decode and execute a single in
                h_processor->status[i_opcode >> 6] = False;
                if (h_processor->trace) v_fprint_status(stdout, h_processor);
                break;
-            case 01: /* if 0 = s(n) */
-               if (h_processor->trace) fprintf(stdout, "if 0 = s(%d) ", i_opcode >> 6);
+            case 01: /* if 0 = s(n) HP10 etc*/
+               if (h_processor->trace) fprintf(stdout, "if s(%d) = 0\t", i_opcode >> 6);
                h_processor->flags[CARRY] = !h_processor->status[i_opcode >> 6];
+               if (h_processor->trace) v_fprint_status(stdout, h_processor);
+               debug(
+                  fprintf(stdout,"\ts[%d] = %d", i_opcode >> 6, h_processor->status[i_opcode >> 6]);
+                  fprintf(stdout,"\t\t\tcarry = %d", h_processor->flags[CARRY])
+               );
                v_op_goto(h_processor);
                break;
             case 02: /* if p != n */
@@ -3402,13 +3415,13 @@ void v_processor_tick(oprocessor *h_processor) /* Decode and execute a single in
                if (i_offset >= 0x40) i_offset = i_offset - 128; /* Fixed relative jump offset */
                if (i_opcode & 00004)
                {
-                  if (h_processor->trace) fprintf(stdout, "jc ");
+                  if (h_processor->trace) fprintf(stdout, "if carry go to ");
                   if (h_processor->flags[PREV_CARRY])
                      h_processor->pc = ((i_last + i_offset) & 0xffff);
                }
                else
                {
-                  if (h_processor->trace) fprintf(stdout, "jnc ");
+                  if (h_processor->trace) fprintf(stdout, "if no carry go to ");
                   if (!h_processor->flags[PREV_CARRY])
                      h_processor->pc = ((i_last + i_offset) & 0xffff);
                }
@@ -3422,8 +3435,8 @@ void v_processor_tick(oprocessor *h_processor) /* Decode and execute a single in
             }
             break;
 #else
-         case 03: /* if nc go to */
-            if (h_processor->trace) {fprintf(stdout, "if nc go to "); fprintf(stdout, h_msg_address, ((h_processor->pc & 0x0f00) | i_opcode >> 2));} /* Note - uses and eight bit address */
+         case 03: /* if nc goto */
+            if (h_processor->trace) {fprintf(stdout, "if no carry go to "); fprintf(stdout, h_msg_address, ((h_processor->pc & 0x0f00) | i_opcode >> 2));} /* Note - uses an eight bit address */
             if (!h_processor->flags[PREV_CARRY])
             {
                h_processor->pc = (h_processor->pc & 0xff00) | i_opcode >> 2;
