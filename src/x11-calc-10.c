@@ -56,8 +56,8 @@
  */
 
 #define VERSION        "0.1"
-#define BUILD          "0015"
-#define DATE           "19 May 24"
+#define BUILD          "0018"
+#define DATE           "09 Jun 25"
 #define AUTHOR         "MT"
 
 #include <stdarg.h>    /* strlen(), etc. */
