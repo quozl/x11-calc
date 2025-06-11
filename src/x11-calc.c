@@ -312,6 +312,7 @@
  * 15 Jun 24         - Sets the application icon to the X windows logo - MT
  * 24 Jul 24         - Updated release meta data - MT
  * 20 May 25         - Tidied up data structure definitions - MT
+ * 11 Jun 25         - Allows multiple breakpoints to be specified - MT
  *
  * To Do             - Parse command line in a separate routine.
  *                   - Add verbose option.
@@ -403,6 +404,26 @@ void v_set_blank_cursor(Display *x_display, Window x_application_window, Cursor 
    XFreePixmap (x_display, x_blank);  /* Free up pixmap */
 }
 
+int i_cmpint (const void *h_left, const void *h_right) /* Compare integer values */
+{
+   int i_left = *(int *)h_left;
+   int i_right = *(int *)h_right;
+   return (i_left > i_right) - (i_left < i_right);
+}
+
+char b_search(void *v_array, void *v_data, size_t t_num, size_t t_size, int (*v_compare)(const void *, const void *)) /* Generic array search */
+{
+   unsigned char *h_ptr = (unsigned char *)v_array;
+   unsigned char *h_data = (unsigned char *)v_data;
+
+   size_t i_count, i_upper = t_num;
+
+   for (i_count = 0; i_count < i_upper; i_count++)
+      if ((v_compare(h_ptr + i_count * t_size, h_data)) == 0)
+         return True;
+   return False;
+}
+
 int main(int argc, char *argv[])
 {
    Display *x_display;           /* Pointer to X display structure */
@@ -444,9 +465,10 @@ int main(int argc, char *argv[])
    char b_run = True;            /* Run flag controls CPU instruction execution in main loop */
    char b_abort = False;         /*Abort flag controls execution of main loop */
 
-   int i_offset, i_count, i_index;
+   int i_breakpoints[] = { -1, -1, -1}; /* Array to hold breakpoints */
+
+   int i_offset, i_count, i_index, i_value, i_size;
    int i_zoom = 0;               /* Zoom level */
-   int i_breakpoint = -1;        /* Break-point */
    int i_trap = -1;              /* Trap instruction */
    int i_ticks = -1;
 
@@ -480,21 +502,27 @@ int main(int argc, char *argv[])
                else
                   if (i_count + 1 < argc)
                   {
-                     i_breakpoint = 0;
+                     i_value = 0;
                      for (i_offset = 0; i_offset < strlen(argv[i_count + 1]); i_offset++)  /* Parse octal number */
                      {
                         if ((argv[i_count + 1][i_offset] < '0') || (argv[i_count + 1][i_offset] > '7'))
                            v_error(EINVAL, h_err_invalid_number, argv[i_count + 1]);
                         else
-                           i_breakpoint = i_breakpoint * 8 + argv[i_count + 1][i_offset] - '0';
+                           i_value = i_value * 8 + argv[i_count + 1][i_offset] - '0';
                      }
-                     if ((i_breakpoint < 0)  || (i_breakpoint > ROM_SIZE) || (i_breakpoint > 07777))  /* Check address range */
+                     if ((i_value < 0)  || (i_value > ROM_SIZE) || (i_value > 07777))  /* Check address range */
                         v_error(EINVAL, h_err_numeric_range, argv[i_count + 1]);
-                     else {
+                     else
+                     {
                         if (i_count + 2 < argc)  /* Remove the parameter from the arguments */
                            for (i_offset = i_count + 1; i_offset < argc - 1; i_offset++)
                               argv[i_offset] = argv[i_offset + 1];
                         argc--;
+                        i_size = sizeof(i_breakpoints) / sizeof(i_breakpoints[0]); /* Find position in the array to store the breakpoint */
+                        for (i_offset = 0; i_offset < i_size && i_breakpoints[i_offset] != i_value && i_breakpoints[i_offset] != -1; i_offset++) /* Find the  position in the array */
+                        {
+                        }
+                        if (i_offset < i_size) i_breakpoints[i_offset] = i_value; /* Save it - if there is space! */
                      }
                   }
                   else
@@ -824,7 +852,7 @@ int main(int argc, char *argv[])
          if (i_ticks > 0) i_ticks -= 1;
          if (i_ticks == 0) b_abort = True;
       }
-      if (((h_processor->pc & 0xfff) == i_breakpoint) || (h_processor->rom[h_processor->pc] == i_trap))  /* Check for Breakpoint or Instruction Trap */
+      if ( (b_search(i_breakpoints, &h_processor->pc, sizeof(i_breakpoints) / sizeof(i_breakpoints[0]), sizeof(*i_breakpoints), i_cmpint) ) || (h_processor->rom[h_processor->pc] == i_trap))  /* Check for Breakpoint or Instruction Trap */
       {
          if (!h_processor->trace || !h_processor->step) fprintf(stderr, "** break **\n");
          h_processor->trace = h_processor->step = True;
