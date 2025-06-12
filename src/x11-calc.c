@@ -313,6 +313,8 @@
  * 24 Jul 24         - Updated release meta data - MT
  * 20 May 25         - Tidied up data structure definitions - MT
  * 11 Jun 25         - Allows multiple breakpoints to be specified - MT
+ * 12 Jan 25         - Simplified linear search function (it didn't need to
+ *                     be able to handle any data type) - MT
  *
  * To Do             - Parse command line in a separate routine.
  *                   - Add verbose option.
@@ -340,7 +342,7 @@
 
 #include <ctype.h>     /* isprint(), etc */
 
-#include <X11/Xlib.h>  /* XOpenDisplay(), etc */
+#include <X11/Xlib.h>  /* XOpenDisplay(), True/False etc */
 #include <X11/Xutil.h> /* XSizeHints etc */
 #include <X11/cursorfont.h>
 
@@ -404,22 +406,10 @@ void v_set_blank_cursor(Display *x_display, Window x_application_window, Cursor 
    XFreePixmap (x_display, x_blank);  /* Free up pixmap */
 }
 
-int i_cmpint (const void *h_left, const void *h_right) /* Compare integer values */
+char b_search(int *a, int m, int n) /* Linear search. */
 {
-   int i_left = *(int *)h_left;
-   int i_right = *(int *)h_right;
-   return (i_left > i_right) - (i_left < i_right);
-}
-
-char b_search(void *v_array, void *v_data, size_t t_num, size_t t_size, int (*v_compare)(const void *, const void *)) /* Generic array search */
-{
-   unsigned char *h_ptr = (unsigned char *)v_array;
-   unsigned char *h_data = (unsigned char *)v_data;
-
-   size_t i_count, i_upper = t_num;
-
-   for (i_count = 0; i_count < i_upper; i_count++)
-      if ((v_compare(h_ptr + i_count * t_size, h_data)) == 0)
+   for (int i = 0; i < n; i++)
+      if (a[i] == m)
          return True;
    return False;
 }
@@ -852,7 +842,7 @@ int main(int argc, char *argv[])
          if (i_ticks > 0) i_ticks -= 1;
          if (i_ticks == 0) b_abort = True;
       }
-      if ( (b_search(i_breakpoints, &h_processor->pc, sizeof(i_breakpoints) / sizeof(i_breakpoints[0]), sizeof(*i_breakpoints), i_cmpint) ) || (h_processor->rom[h_processor->pc] == i_trap))  /* Check for Breakpoint or Instruction Trap */
+      if ( (b_search(i_breakpoints, (h_processor->pc & 0xfff), sizeof(i_breakpoints) / sizeof(i_breakpoints[0]))) || (h_processor->rom[h_processor->pc] == i_trap))  /* Check for Breakpoint or Instruction Trap */
       {
          if (!h_processor->trace || !h_processor->step) fprintf(stderr, "** break **\n");
          h_processor->trace = h_processor->step = True;
