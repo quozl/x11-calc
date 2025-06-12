@@ -397,6 +397,7 @@
  *                     statements - MT
  * 09 Jun 25         - Trace output includes the status word for if testing
  *                     a status bit - MT
+ * 12 Mar 22         - Removed unused debug code - MT
  *
  * To Do             - Finish adding code to display any modified registers
  *                     to every instruction.
@@ -410,7 +411,7 @@
 #define DATE           "29 Mar 24"
 #define AUTHOR         "MT"
 
-#define DEBUG
+#define NODEBUG
 
 #include <errno.h>     /* errno */
 
@@ -856,8 +857,7 @@ char *v_get_datafile_path(oprocessor *h_processor) /* Returns path the the data 
          strcpy(s_pathname, s_directory);
          strcat(s_pathname, "/.local/share");
       }
-      debug(printf("Searching for '%s'\n", s_pathname));
-      if (i_exists(s_pathname) && i_isdir(s_pathname)) /* Check that the selected directory exists, and if it doesn't use  $HOME */
+      if (i_exists(s_pathname) && i_isdir(s_pathname)) /* Check that the selected directory exists, and if it doesn't use $HOME */
       {
          strcat(s_pathname, "/x11-calc");
          if (i_exists(s_pathname) == 0) mkdir(s_pathname, (S_IRWXU|S_IRGRP|S_IXGRP)); /* If the application data folder does not exist attempt to create it (no need to check status here as we check the directory exists below) */
@@ -2285,7 +2285,6 @@ void v_processor_tick(oprocessor *h_processor) /* Decode and execute a single in
                break;
             default:
                if (h_processor->trace) fprintf(stdout, "\n");
-               /** debug(fprintf(stderr,"%02x\n", (i_opcode >> 6) & 0xf)); */
                v_error(errno, h_err_unexpected_opcode, i_opcode, (i_last >> 12), (i_last & 0xfff), __FILE__, __LINE__);
             }
             break;
@@ -2405,7 +2404,6 @@ void v_processor_tick(oprocessor *h_processor) /* Decode and execute a single in
                break;
             default:
                if (h_processor->trace) fprintf(stdout, "\n");
-               /** debug(fprintf(stderr,"%02x\n", (i_opcode >> 6) & 0xf)); */
                v_error(errno, h_err_unexpected_opcode, i_opcode, (i_last >> 12), (i_last & 0xfff), __FILE__, __LINE__);
             }
             break;
@@ -2542,7 +2540,6 @@ void v_processor_tick(oprocessor *h_processor) /* Decode and execute a single in
 
             default:
                if (h_processor->trace) fprintf(stdout, "\n");
-               /** debug(fprintf(stderr,"%02x\n", (i_opcode >> 6) & 0xf)); */
                v_error(errno, h_err_unexpected_opcode, i_opcode, (i_last >> 12), (i_last & 0xfff), __FILE__, __LINE__);
             }
             break;
@@ -2585,7 +2582,6 @@ void v_processor_tick(oprocessor *h_processor) /* Decode and execute a single in
 
          default:
             if (h_processor->trace) fprintf(stdout, "\n");
-            /** debug(fprintf(stderr,"%02x\n", (i_opcode >> 2) & 0xf)); */
             v_error(errno, h_err_unexpected_opcode, i_opcode, (i_last >> 12), (i_last & 0xfff), __FILE__, __LINE__);
          }
          break;
