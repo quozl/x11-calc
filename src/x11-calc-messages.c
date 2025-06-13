@@ -142,7 +142,7 @@ const char *h_err_duplicate_option = "opcion duplicato -- '%c'\n";
 const char *h_err_unrecognised_option = "opcion no reconocida '%s'\n";
 const char *h_err_invalid_number = "no es un numero octal -- '%s'\n";
 const char *h_err_numeric_range = "fuera del rango -- '%s'\n";
-const char *h_err_max_breakpoints = "numero maximo de puntos de interrupcion excedido -- '%c %s'\n";
+const char *h_err_max_breakpoints = "numero maximo de puntos de interrupcion excedido\n";
 const char *h_err_invalid_argument = "argumento esperado no es -- '%c'\n";
 #else
 const char *h_msg_usage = "Uso: %s [OPCION]... [ARCHIVO]\n\
@@ -204,7 +204,7 @@ const char *h_err_duplicate_option = "doppelter option -- '%c'\n";
 const char *h_err_unrecognised_option = "unbekannte option '%s'\n";
 const char *h_err_invalid_number = "keine gueltige oktalzahl -- '%s'\n";
 const char *h_err_numeric_range = "ausserhalb des zahlenbereichs -- '%s'\n";
-const char *h_err_max_breakpoints = "maximale anzahl an haltepunkten uberschritten -- '%c %s'\n";
+const char *h_err_max_breakpoints = "maximale anzahl an haltepunkten uberschritten\n";
 const char *h_err_invalid_argument = "argument erwartet, nicht -- '%c'\n";
 #else
 const char *h_msg_usage = "Verwendung: %s [OPTION...] [DATEI]\n\
@@ -266,7 +266,7 @@ const char *h_err_duplicate_option = "valeur en double -- '%c'\n";
 const char *h_err_unrecognised_option = "option non reconnue '%s'\n";
 const char *h_err_invalid_number = "pas un nombre octal -- '%s'\n";
 const char *h_err_numeric_range = "hors de portee -- '%s'\n";
-const char *h_err_max_breakpoints = "nombre maximal de points d'arret depasse -- '%c %s'\n";
+const char *h_err_max_breakpoints = "nombre maximal de points d'arret depasse\n";
 const char *h_err_invalid_argument = "argument attendu -- '%c'\n";
 #else
 const char *h_msg_usage = "Utilisation : %s [OPTION]... [FICHIER]\n\
@@ -329,7 +329,7 @@ const char *h_err_duplicate_option = "duplicate option -- '%c'\n";
 const char *h_err_unrecognised_option = "unrecognised option '%s'\n";
 const char *h_err_invalid_number = "not an octal number -- '%s'\n";
 const char *h_err_numeric_range = "out of range -- '%s'\n";
-const char *h_err_max_breakpoints = "maximum number of breakpoints exceeded -- '%c %s'\n";
+const char *h_err_max_breakpoints = "maximum number of breakpoints exceeded\n";
 const char *h_err_invalid_argument = "expected argument not -- '%c'\n";
 #else
 const char *h_msg_usage = "Usage: %s [OPTION...] [FILE]\n\

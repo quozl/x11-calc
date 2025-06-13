@@ -510,7 +510,7 @@ int main(int argc, char *argv[])
                         if (i_offset < i_size) /* Save it - if there is space! */
                            i_breakpoints[i_offset] = i_value;
                         else
-                           v_error(EINVAL, h_err_max_breakpoints, argv[i_count][i_index], argv[i_count + 1]);
+                           v_error(EINVAL, h_err_max_breakpoints);
                         if (i_count + 2 < argc)  /* Remove the parameter from the arguments */
                            for (i_offset = i_count + 1; i_offset < argc - 1; i_offset++)
                               argv[i_offset] = argv[i_offset + 1];
