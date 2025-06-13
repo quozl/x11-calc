@@ -316,6 +316,7 @@
  *                     be able to handle any data type) - MT
  *                   - Added  error messages for the number of  breakpoints
  *                     and instruction traps - MT
+ * 14 Jun 25         - Increased the maximum number of breakpoints - MT
  *
  * To Do             - Parse command line in a separate routine.
  *                   - Add verbose option.
@@ -456,7 +457,7 @@ int main(int argc, char *argv[])
    char b_run = True;            /* Run flag controls CPU instruction execution in main loop */
    char b_abort = False;         /*Abort flag controls execution of main loop */
 
-   int i_breakpoints[] = { -1, -1, -1}; /* Array to hold breakpoints */
+   int i_breakpoints[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}; /* Array to hold breakpoints */
 
    int i_offset, i_count, i_index, i_value, i_size;
    int i_zoom = 0;               /* Zoom level */
