@@ -23,7 +23,7 @@
  *                     setting  DEBUG true or false - MT
  * 22 Aug 21         - Prints Current filename and line number - MT
  *                   - Added verbose macro - MT
- * 03 Jan 21         - Changed both macros to allow DEBUG and VERBOSE to be
+ * 03 Jan 22         - Changed both macros to allow DEBUG and VERBOSE to be
  *                     defined from the command line - MT
  * 09 Jun 25         - Changed to use stdout instead of stderr - MT
  *
