@@ -91,8 +91,8 @@
  */
 
 #define NAME           "x11-calc-display"
-#define BUILD          "0035"
-#define DATE           "09 Apr 24"
+#define BUILD          "0038"
+#define DATE           "23 Apr 24"
 #define AUTHOR         "MT"
 
 #include <errno.h>     /* errno */

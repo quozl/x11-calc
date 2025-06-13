@@ -68,8 +68,8 @@
  */
 
 #define NAME           "x11-calc-digit"
-#define BUILD          "0013"
-#define DATE           "09 Apr 24"
+#define BUILD          "0016"
+#define DATE           "23 Apr 24"
 #define AUTHOR         "MT"
 
 #include <errno.h>     /* errno */

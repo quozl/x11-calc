@@ -22,8 +22,8 @@
  * You  should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * 03 Jul 13         - Initial verson with new button style - MT
- * 04 Jul 13         - Optimized the number of drawing operations - MT
+ * 03 Jul 13         - Initial version with new button style - MT
+ * 04 Jul 13         - Optimised the number of drawing operations - MT
  * 07 Jul 13         - Tuned position of font - MT
  * 14 Jul 13         - Flush X buffer each time button is drawn - MT
  * 15 Dec 18         - Changed debug macro and added an error macro - MT
@@ -66,8 +66,8 @@
  */
 
 #define NAME           "x11-calc-button"
-#define BUILD          "0020"
-#define DATE           "25 Mar 24"
+#define BUILD          "0022"
+#define DATE           "23 Apr 24"
 #define AUTHOR         "MT"
 
 #include <errno.h>     /* errno */
@@ -96,8 +96,6 @@
  *
  * If the x and y co-ordinate are within the area of the button this
  * function returns a pointer to the button, or a NULL otherwise.
- *
- * 01 Jul 13         - Initial version - MT
  *
  */
 
