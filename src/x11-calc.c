@@ -243,7 +243,6 @@
  *                     before the version number is shown - MT
  * 18 Feb 24         - Updated  version number format to include the  build
  *                     number - MT
- *
  * 19 Feb 24         - Check that stat() was successful before checking the
  *                     if the file is a directory or a file! - MT
  *                   - Closes ROM file after reading - MT
@@ -311,10 +310,12 @@
  * 19 May 24         - Remove unnecessary call to set windows size - MT
  * 15 Jun 24         - Sets the application icon to the X windows logo - MT
  * 24 Jul 24         - Updated release meta data - MT
- * 20 May 25         - Tidied up data structure definitions - MT
+ * 20 May 25   0.15  - Tidied up data structure definitions - MT
  * 11 Jun 25         - Allows multiple breakpoints to be specified - MT
- * 12 Jan 25         - Simplified linear search function (it didn't need to
+ * 12 Jun 25         - Simplified linear search function (it didn't need to
  *                     be able to handle any data type) - MT
+ *                   - Added  error messages for the number of  breakpoints
+ *                     and instruction traps - MT
  *
  * To Do             - Parse command line in a separate routine.
  *                   - Add verbose option.
@@ -325,9 +326,9 @@
  */
 
 #define  NAME          "x11-calc"
-#define  VERSION       "0.14"
-#define  BUILD         "0154"
-#define  DATE          "04 May 24"
+#define  VERSION       "0.15"
+#define  BUILD         "0164"
+#define  DATE          "12 Jun 25"
 #define  AUTHOR        "MT"
 
 #define  INTERVAL 25   /* Number of ticks to execute before updating the display */
@@ -504,15 +505,16 @@ int main(int argc, char *argv[])
                         v_error(EINVAL, h_err_numeric_range, argv[i_count + 1]);
                      else
                      {
+                        i_size = sizeof(i_breakpoints) / sizeof(i_breakpoints[0]); /* Find position in the array to store the breakpoint */
+                        for (i_offset = 0; i_offset < i_size && i_breakpoints[i_offset] != i_value && i_breakpoints[i_offset] != -1; i_offset++) {} /* Find the  position in the array */
+                        if (i_offset < i_size) /* Save it - if there is space! */
+                           i_breakpoints[i_offset] = i_value;
+                        else
+                           v_error(EINVAL, h_err_max_breakpoints, argv[i_count][i_index], argv[i_count + 1]);
                         if (i_count + 2 < argc)  /* Remove the parameter from the arguments */
                            for (i_offset = i_count + 1; i_offset < argc - 1; i_offset++)
                               argv[i_offset] = argv[i_offset + 1];
                         argc--;
-                        i_size = sizeof(i_breakpoints) / sizeof(i_breakpoints[0]); /* Find position in the array to store the breakpoint */
-                        for (i_offset = 0; i_offset < i_size && i_breakpoints[i_offset] != i_value && i_breakpoints[i_offset] != -1; i_offset++) /* Find the  position in the array */
-                        {
-                        }
-                        if (i_offset < i_size) i_breakpoints[i_offset] = i_value; /* Save it - if there is space! */
                      }
                   }
                   else
@@ -525,18 +527,22 @@ int main(int argc, char *argv[])
                else
                   if (i_count + 1 < argc)
                   {
-                     i_trap = 0;
+                     i_value = 0;
                      for (i_offset = 0; i_offset < strlen(argv[i_count + 1]); i_offset++)  /* Parse octal number */
                      {
                         if ((argv[i_count + 1][i_offset] < '0') || (argv[i_count + 1][i_offset] > '7'))
                            v_error(EINVAL, h_err_invalid_number, argv[i_count + 1]);
                         else
-                           i_trap = i_trap * 8 + argv[i_count + 1][i_offset] - '0';
+                           i_value = i_value * 8 + argv[i_count + 1][i_offset] - '0';
                      }
-                     if ((i_trap < 0) || (i_trap > 01777))  /* Check range */
+                     if ((i_value < 0)  || (i_value > ROM_SIZE) || (i_value > 07777))  /* Check address range */
                         v_error(EINVAL, h_err_numeric_range, argv[i_count + 1]);
                      else
                      {
+                        if (i_trap == -1) /* Save it - if not already defined! */
+                           i_trap = i_value;
+                        else
+                           v_error(EINVAL, h_err_duplicate_option, argv[i_count][i_index]);
                         if (i_count + 2 < argc)  /* Remove the parameter from the arguments */
                            for (i_offset = i_count + 1; i_offset < argc - 1; i_offset++)
                               argv[i_offset] = argv[i_offset + 1];
@@ -612,7 +618,7 @@ int main(int argc, char *argv[])
                   }
                   else if (!strncmp(argv[i_count], "--help", i_index))
                   {
-                     fprintf(stdout, c_msg_usage, FILENAME);
+                     fprintf(stdout, h_msg_usage, FILENAME);
                      exit(0);
                   }
                   else  /* If we get here then the we have an invalid long option */
@@ -669,7 +675,7 @@ int main(int argc, char *argv[])
          }
          else if ((!strncmp(argv[i_count], "/HELP", i_index)) | (!strncmp(argv[i_count], "/?", i_index)))
          {
-            fprintf(stdout, c_msg_usage, FILENAME);
+            fprintf(stdout, h_msg_usage, FILENAME);
             exit(0);
          }
          else /* If we get here then the we have an invalid option */
