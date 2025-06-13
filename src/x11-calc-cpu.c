@@ -334,7 +334,7 @@
  *                     registers are displayed  - MT
  *                   - All models now display the modified registers values
  *                     in the trace output - MT
- * 11 Dec 22         - Renamed models with continious memory and added HP25
+ * 11 Dec 22         - Renamed models with continuous memory and added HP25
  *                     HP33E, and HP38E - MT
  * 14 Dec 22         - Changed 'keys -> a' to return the state of the print
  *                     mode  switch  for  printing models,  currently  this
@@ -342,9 +342,9 @@
  *                     been implemented yet - MT
  * 20 Dec 22         - Can now print to stdout, this works well enough with
  *                     the HP10 as this doesn't use many special characters
- *                     and they can be substituted for an ASCII equlivelent
+ *                     and they can be substituted for an ASCII  equivalent
  *                     but this will be a problem with other models - MT
- * 21 Dec 22         - Created a seperate function to print the contents of
+ * 21 Dec 22         - Created a separate function to print the contents of
  *                     the print buffer to a file - MT
  * 24 Dec 22         - Added and explicit check for '__APPLE__' in order to
  *                     allow Mac OS  to be handled in the same way as other
@@ -359,7 +359,7 @@
  * 21 Oct 23         - Define MANUAL, NORMAL, and TRACE print modes - MT
  * 04 Feb 24         - Found  and  fixed a memory leak in save_state()  and
  *                     restore_state() - MT
- *                   - Added a seperate function to return the path to  the
+ *                   - Added a separate function to return the path to  the
  *                     data  file that is used to store the processor state
  *                     and modified the code to store the data file in  the
  *                     $HOME/.local/share directory  if it doesn't  already
@@ -373,7 +373,7 @@
  *                     file as this allows a ROM file to be used to apply a
  *                     patch to an existing ROM (it seemed like a good idea
  *                     at the time) - MT
- * 16 Feb 24         - Creates a seperate application folder (if it doesn't
+ * 16 Feb 24         - Creates a separate application folder (if it doesn't
  *                     exist) if using $XDG_DATA_HOME or $HOME/.local/share
  *                     to store the data files - MT
  *                   - Fixed bug in $XDG_DATA_HOME checking code - MT
@@ -397,18 +397,18 @@
  *                     statements - MT
  * 09 Jun 25         - Trace output includes the status word for if testing
  *                     a status bit - MT
- * 12 Mar 22         - Removed unused debug code - MT
+ * 12 Jun 25         - Removed unused debug code - MT
  *
  * To Do             - Finish adding code to display any modified registers
  *                     to every instruction.
- *                   - Use a dedicated procesor flag for the printer mode.
+ *                   - Use a dedicated processor flag for the printer mode.
  *                   - Figure out how to get the display to blink..?
  *
  */
 
 #define NAME           "x11-calc-cpu"
-#define BUILD          "0171"
-#define DATE           "29 Mar 24"
+#define BUILD          "0208"
+#define DATE           "12 Jun 25"
 #define AUTHOR         "MT"
 
 #define NODEBUG
