@@ -60,14 +60,15 @@
  *                     dividing line in the same place regardless of aspect
  *                     ratio - MT
  * 23 Apr 24         - Separated out prototypes for error handlers - MT
+ * 16 Jun 25         - Tidied up comments - MT
  *
  * To Do             - Add a new style to handle the type of button used by
  *                     the classic series.
  */
 
 #define NAME           "x11-calc-button"
-#define BUILD          "0022"
-#define DATE           "23 Apr 24"
+#define BUILD          "0023"
+#define DATE           "186 Jun 34"
 #define AUTHOR         "MT"
 
 #include <errno.h>     /* errno */
@@ -94,8 +95,8 @@
 /*
  * button_key_pressed (button, key)
  *
- * If the x and y co-ordinate are within the area of the button this
- * function returns a pointer to the button, or a NULL otherwise.
+ * If  the key matches the key assigned to the button this function returns
+ * a pointer to the button, or a NULL otherwise.
  *
  */
 
@@ -109,7 +110,13 @@ struct obutton *h_button_key_pressed(struct obutton *h_button, char c_key){
    }
    return(NULL);
 }
-/* button_pressed (button, x, y) */
+
+/* button_pressed (button, x, y)
+ *
+ * If the x and y co-ordinate are within the area of the button this
+ * function returns a pointer to the button, or a NULL otherwise.
+ *
+ */
 
 struct obutton *h_button_pressed(struct obutton *h_button, int i_xpos, int i_ypos){
 
@@ -129,9 +136,12 @@ struct obutton *h_button_pressed(struct obutton *h_button, int i_xpos, int i_ypo
    return(NULL);
 }
 
-/*button_create (index, key, text, label ,label, font, function_font,
+/* button_create (index, key, text, label ,label, font, function_font,
  *                label_font, left, top, width, height,
  *                state, colour)
+ *
+ * Returns a pointer to the new buton object if successful.
+ *
  */
 
 struct obutton *h_button_create(int i_index, char c_key,
@@ -142,10 +152,10 @@ struct obutton *h_button_create(int i_index, char c_key,
    unsigned int i_colour, unsigned int i_function_colour,
    unsigned int i_shifted_colour, unsigned int i_label_colour) {
 
-   struct obutton *h_button; /* Ponter to button. */
+   struct obutton *h_button; /* Pointer to button. */
 
-   /* Attempt to allocate memory for a button. */
-   if ((h_button = malloc (sizeof(*h_button)))==NULL) v_error(errno, h_err_memmory_alloc, __FILE__, __LINE__);
+   if ((h_button = malloc (sizeof(*h_button)))==NULL) /* Attempt to allocate memory for a button. */
+      v_error(errno, h_err_memmory_alloc, __FILE__, __LINE__);
 
    h_button->index = i_index;
    h_button->key = c_key;
@@ -191,7 +201,11 @@ int i_button_resize(struct obutton *h_button, float f_scale)
 }
 
 
-/* button_draw (display, window, screen, button) */
+/* button_draw (display, window, screen, button)
+ *
+ * Draws the button.
+ *
+ */
 
 int i_button_draw(Display *h_display, int x_application_window, int i_screen, struct obutton *h_button) {
 
