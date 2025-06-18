@@ -68,7 +68,7 @@
 
 #define NAME           "x11-calc-button"
 #define BUILD          "0023"
-#define DATE           "16 Jun 34"
+#define DATE           "16 Jun 24"
 #define AUTHOR         "MT"
 
 #include <errno.h>     /* errno */
