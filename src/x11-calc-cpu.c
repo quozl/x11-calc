@@ -398,6 +398,7 @@
  * 09 Jun 25         - Trace output includes the status word for if testing
  *                     a status bit - MT
  * 12 Jun 25         - Removed unused debug code - MT
+ * 06 Jul 25         - Set buffer pointer when initializing processor - MT
  *
  * To Do             - Finish adding code to display any modified registers
  *                     to every instruction.
@@ -974,6 +975,7 @@ oprocessor *h_processor_create(int *h_rom) /* Create a new processor 'object' */
    v_processor_reset(h_processor);
 #if defined(HP10)
    h_processor->print = MANUAL;
+   h_processor->position = 0;              /* Position of next char in buffer */
 #endif
    return(h_processor);
 }
@@ -1022,7 +1024,7 @@ int i_translate_addr(int i_addr) /* Translate address to a memory register */
 #else
 static void v_op_inc_p(oprocessor *h_processor) /* Increment p register */
 {
-#if defined(HP10) || defined(HP31e) || defined(HP32e) || defined(HP33e) || defined(HP33c) || defined(HP34c) || defined(HP37e) || defined(HP38e) || defined(HP38c) || defined(HP67)
+#if defined(HP31e) || defined(HP32e) || defined(HP33e) || defined(HP33c) || defined(HP34c) || defined(HP37e) || defined(HP38e) || defined(HP38c) || defined(HP67)
    if (h_processor->p == REG_SIZE - 1)
       h_processor->p = 0;
    else
