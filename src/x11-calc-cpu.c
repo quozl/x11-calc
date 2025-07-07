@@ -398,7 +398,7 @@
  * 09 Jun 25         - Trace output includes the status word for if testing
  *                     a status bit - MT
  * 12 Jun 25         - Removed unused debug code - MT
- * 06 Jul 25         - Set buffer pointer when initializing processor - MT
+ * 06 Jul 25         - Set buffer pointer when initialising processor - MT
  *
  * To Do             - Finish adding code to display any modified registers
  *                     to every instruction.
